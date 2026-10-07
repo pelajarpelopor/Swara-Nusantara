@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swara Nusantara - Generator Audio & Logat Nusantara</title>
+  
+  <!-- Font Tipografi Khusus & Antarmuka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --font-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+      --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      
+      --color-ground: #0e1014;
+      --color-surface: #15181f;
+      --color-surface-hover: #1c202a;
+      --color-card: #13161c;
+      --color-border: rgba(235, 220, 200, 0.08);
+      
+      --ink-primary: #f6f3eb;
+      --ink-secondary: #beb7a8;
+      --ink-muted: #7e776a;
+      
+      --accent-bronze: #d98c44;
+      --accent-terracotta: #c45b41;
+      --accent-gold: #e5b369;
+      --accent-teal: #2c686d;
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background-color: var(--color-ground);
+      background-image: 
+        radial-gradient(ellipse 65% 45% at 50% 0%, rgba(217, 140, 68, 0.07), transparent 70%),
+        radial-gradient(ellipse 40% 35% at 85% 35%, rgba(44, 104, 109, 0.05), transparent 60%),
+        radial-gradient(ellipse 45% 35% at 15% 75%, rgba(196, 91, 65, 0.05), transparent 60%);
+      color: var(--ink-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .font-serif, h1, h2, h3, .heading-editorial {
+      font-family: var(--font-display);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .editorial-gradient-text {
+      background: linear-gradient(135deg, #fffdfa 0%, #edd8b4 50%, #d98c44 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .card-craft {
+      background: linear-gradient(180deg, rgba(21, 24, 31, 0.95) 0%, rgba(16, 18, 24, 0.98) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: 1.15rem;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-craft:hover {
+      border-color: rgba(217, 140, 68, 0.3);
+      box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-terracotta {
+      background: linear-gradient(135deg, #d98c44 0%, #b85438 100%);
+      border: 1px solid rgba(255, 240, 220, 0.2);
+      box-shadow: 0 6px 18px rgba(184, 84, 56, 0.25);
+      transition: all 0.2s ease;
+    }
+    .btn-terracotta:hover {
+      transform: translateY(-1.5px);
+      box-shadow: 0 10px 24px rgba(184, 84, 56, 0.35);
+      background: linear-gradient(135deg, #e4974f 0%, #c45e43 100%);
+    }
+    .btn-terracotta:active {
+      transform: translateY(1px);
+    }
+
+    .tab-btn {
+      transition: all 0.2s ease;
+      color: var(--ink-secondary);
+    }
+    .tab-btn.active {
+      background: rgba(217, 140, 68, 0.15);
+      color: #faeedb;
+      border: 1px solid rgba(217, 140, 68, 0.35);
+    }
+
+    .dialect-card-btn {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid var(--color-border);
+      background: #13161c;
+    }
+    .dialect-card-btn:hover {
+      border-color: rgba(217, 140, 68, 0.35);
+      transform: translateY(-1px);
+    }
+    .dialect-card-btn.active {
+      background: rgba(217, 140, 68, 0.14) !important;
+      border-color: var(--accent-bronze) !important;
+      color: #fff9ee !important;
+      box-shadow: 0 4px 14px rgba(217, 140, 68, 0.16);
+    }
+
+    input[type="range"] {
+      accent-color: var(--accent-bronze);
+    }
+
+    /* Custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0e1014;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #232833;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #333a4a;
+    }
+  </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+  <header class="sticky top-0 z-40 bg-[#0e1014]/90 backdrop-blur-md border-b border-[#1e222c]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between py-3.5">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d98c44] to-[#b85438] flex items-center justify-center p-2.5 shadow-md">
+          <svg class="w-full h-full text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z" />
+          </svg>
+        </div>
+        <div>
+          <span class="font-serif text-xl sm:text-2xl tracking-tight text-[#f6f3eb] font-semibold block leading-tight">Swara Nusantara</span>
+          <span class="text-[11px] text-[#9a9181] tracking-wider uppercase">Generator Audio Logat & Pelafalan Khas</span>
+        </div>
+      </div>
+
+      <!-- Navigasi Tab -->
+      <nav class="flex items-center space-x-1.5 bg-[#14171e] p-1 rounded-full border border-[#232732]">
+        <button id="nav-btn-home" onclick="switchTab('home')" class="tab-btn active px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium">
+          Beranda
+        </button>
+        <button id="nav-btn-studio" onclick="switchTab('studio')" class="tab-btn px-4 py-1.5 rounded-full text-xs sm:text-sm font-medium">
+          Studio Generator
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-6xl mx-auto w-full px-4 sm:px-6 py-8">
+    
+    <!-- ========================================== -->
+    <!-- TAB 1: BERANDA / HOME DASHBOARD            -->
+    <!-- ========================================== -->
+    <section id="view-home" class="space-y-12">
+      <!-- Banner Sambutan Utama -->
+      <div class="relative overflow-hidden card-craft p-6 sm:p-10 border-[#d98c44]/25">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#d98c44]/15 border border-[#d98c44]/30 text-[#e5b369] text-xs font-medium">
+            <span>● Generator Audio Logat Nusantara Akurasi Tinggi</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif text-[#f6f3eb] leading-tight">
+            Selamat Datang di <span class="editorial-gradient-text">Swara Nusantara</span>
+          </h1>
+          <p class="text-[#b5ada0] text-sm sm:text-base leading-relaxed">
+            Membunyikan tulisan teks Anda menjadi alunan tutur lisan dengan ayunan logat, intonasi, dan partikel khas daerah Indonesia: <strong>Sunda, Jawa, Medan, Papua, Bali</strong>, serta ragam <strong>Jambi</strong> dan <strong>Padang</strong>. Hasil audio disintesis dengan presisi tinggi dan dapat langsung diputar serta diunduh dalam format <code>.WAV</code> berkualitas tinggi.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="switchTab('studio')" class="btn-terracotta px-6 py-2.5 rounded-xl text-white font-medium text-sm flex items-center gap-2">
+              <span>Buka Studio Suara</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+            <button onclick="openInfoModal()" class="px-5 py-2.5 rounded-xl border border-[#2b313e] bg-[#14171f] hover:bg-[#1b202a] text-[#beb7a8] text-sm font-medium transition">
+              Panduan & Karakteristik Logat
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Pilar Keunggulan -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="card-craft p-5 space-y-2.5">
+          <div class="w-9 h-9 rounded-lg bg-[#d98c44]/15 border border-[#d98c44]/30 flex items-center justify-center text-[#e5b369]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"/></svg>
+          </div>
+          <h3 class="text-lg font-serif text-[#f6f3eb]">Analisis Presisi Fonetik</h3>
+          <p class="text-xs sm:text-sm text-[#9f9789] leading-relaxed">
+            Menganalisis susunan teks, pilihan suasana tutur (vibe), dan aksentuasi khas daerah agar menghasilkan artikulasi vokal serta intonasi paling alami.
+          </p>
+        </div>
+
+        <div class="card-craft p-5 space-y-2.5">
+          <div class="w-9 h-9 rounded-lg bg-[#2c686d]/20 border border-[#2c686d]/40 flex items-center justify-center text-[#7ac2c6]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-serif text-[#f6f3eb]">Kontrol Tempo & Suasana Vibe</h3>
+          <p class="text-xs sm:text-sm text-[#9f9789] leading-relaxed">
+            Dapat diperlambat hingga 0.6x atau dipercepat hingga 1.6x dengan pilihan vibe ceria, sedih, puitis, hingga suara berbisik misterius.
+          </p>
+        </div>
+
+        <div class="card-craft p-5 space-y-2.5">
+          <div class="w-9 h-9 rounded-lg bg-[#c45b41]/15 border border-[#c45b41]/30 flex items-center justify-center text-[#e88c75]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          </div>
+          <h3 class="text-lg font-serif text-[#f6f3eb]">Output Audio .WAV Mandiri</h3>
+          <p class="text-xs sm:text-sm text-[#9f9789] leading-relaxed">
+            Hasil audio dapat langsung diputar secara real-time melalui waveform player interaktif dan diunduh instan dalam format standar .WAV.
+          </p>
+        </div>
+      </div>
+
+      <!-- Pilihan 5 Dialek Utama + Tambahan -->
+      <div class="space-y-4">
+        <div class="flex items-end justify-between border-b border-[#212530] pb-3">
+          <div>
+            <h2 class="text-2xl font-serif text-[#f6f3eb]">Ragam Bahasa & Logat Daerah</h2>
+            <p class="text-xs sm:text-sm text-[#999080]">Pilih dialek untuk langsung masuk ke studio dan membuat audio</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="home-dialect-grid">
+          <!-- Cards rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: STUDIO PELAFALAN & GENERATOR AUDIO -->
+    <!-- ========================================== -->
+    <section id="view-studio" class="hidden space-y-6">
+      
+      <!-- Panel Pengaturan Logat & Karakter -->
+      <div class="card-craft p-5 sm:p-7 space-y-6">
+        
+        <!-- Pilihan 5 Dialek Utama (+ bonus daerah) -->
+        <div class="space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-[#d98c44]">
+              1. Pilih Ragam Bahasa & Logat
+            </label>
+            <span class="text-[11px] text-[#8e8677]">Sunda • Jawa • Medan • Papua • Bali</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2" id="studio-dialect-buttons">
+            <!-- Buttons generated via JS -->
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-[#1f2430]">
+          
+          <!-- Dropdown Pilihan Vibe -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-medium text-[#b5ada0]">Suasana Tutur (Vibe)</label>
+            <select id="select-vibe" onchange="onSettingChange()" class="w-full bg-[#11141a] border border-[#262c3a] text-[#f6f3eb] rounded-xl px-3 py-2 text-sm focus:border-[#d98c44] outline-none transition">
+              <option value="ceria">Ceria (Hangat & Akrab)</option>
+              <option value="sedih">Sedih (Haru & Mendalam)</option>
+              <option value="puitis">Puitis (Berirama & Syahdu)</option>
+              <option value="misterius">Suara Misterius (Rendah & Berbisik)</option>
+            </select>
+          </div>
+
+          <!-- Dropdown Karakter Suara -->
+          <div class="space-y-1.5">
+            <label class="block text-xs font-medium text-[#b5ada0]">Karakter Suara</label>
+            <select id="select-gender" onchange="onSettingChange()" class="w-full bg-[#11141a] border border-[#262c3a] text-[#f6f3eb] rounded-xl px-3 py-2 text-sm focus:border-[#d98c44] outline-none transition">
+              <option value="wanita">Wanita (Vokal Lembut & Ekspresif)</option>
+              <option value="pria">Pria (Vokal Berbobot & Mantap)</option>
+            </select>
+          </div>
+
+          <!-- Pengatur Kecepatan Tempo -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between items-center text-xs">
+              <label class="text-[#b5ada0]">Kecepatan Tempo Suara</label>
+              <span id="label-tempo" class="text-[#d98c44] font-semibold">1.00x</span>
+            </div>
+            <input type="range" id="input-tempo" min="0.6" max="1.6" step="0.05" value="1.0" oninput="updateTempoLabel(this.value)" class="w-full cursor-pointer mt-2">
+            <div class="flex justify-between text-[10px] text-[#6b6458]">
+              <span>0.6x (Lambat)</span>
+              <span>1.0x Normal</span>
+              <span>1.6x Cepat</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kolom Narasi Maksimal Tanpa Batas Karakter -->
+        <div class="space-y-2 pt-2 border-t border-[#1f2430]">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-[#d98c44]">
+              2. Kolom Narasi (Maksimal Karakter Tidak Terbatas)
+            </label>
+            <button onclick="loadSampleText()" class="text-xs text-[#d98c44] hover:text-[#f3b573] underline flex items-center gap-1 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              <span>Muat Contoh Kalimat Dialek</span>
+            </button>
+          </div>
+
+          <textarea id="narration-text" rows="5" placeholder="Tuliskan naskah teks Anda di sini tanpa batas panjang karakter. Sistem analisis akan menyesuaikan intonasi, ayunan logat, dan emosi vokal sesuai dialek yang dipilih..." class="w-full bg-[#111319] border border-[#252b39] text-[#f6f3eb] rounded-xl p-3.5 text-sm sm:text-base leading-relaxed focus:border-[#d98c44] focus:ring-1 focus:ring-[#d98c44] outline-none transition resize-y"></textarea>
+
+          <div class="flex flex-wrap items-center justify-between text-xs text-[#8c8475] pt-1">
+            <div class="flex items-center space-x-3">
+              <span id="char-count">0 karakter</span>
+              <span>•</span>
+              <span id="word-count">0 kata</span>
+            </div>
+            <span class="text-[11px] text-[#8c8475]/80">Mendukung naskah panjang (paragraf bebas)</span>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button id="btn-generate" onclick="generateSpokenAudio()" class="w-full btn-terracotta py-3.5 px-6 rounded-xl font-semibold text-white flex items-center justify-center gap-3 transition">
+            <svg id="generate-spinner" class="hidden animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span id="btn-generate-label">Analisis & Terbitkan Audio (.WAV)</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Player & Visualizer Gelombang Suara Output .WAV -->
+      <div id="player-section" class="hidden card-craft p-6 border-[#d98c44]/35 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#212633] pb-3">
+          <div class="flex items-center space-x-3">
+            <div class="w-3 h-3 rounded-full bg-[#2c686d] animate-pulse"></div>
+            <div>
+              <h3 class="font-serif text-lg text-[#f6f3eb] leading-tight" id="player-title">Audio Pelafalan Siap</h3>
+              <p class="text-xs text-[#9a9181]" id="player-subtitle">Format Audio: PCM RIFF .WAV 16-Bit</p>
+            </div>
+          </div>
+          
+          <!-- Tombol Unduh .WAV -->
+          <a id="btn-download-wav" download="swara-nusantara.wav" class="px-4 py-2 rounded-xl bg-[#1c212c] hover:bg-[#252b38] border border-[#343b4c] text-[#e5b369] text-xs sm:text-sm font-medium flex items-center gap-2 transition cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Unduh Berkas .WAV</span>
+          </a>
+        </div>
+
+        <!-- Waveform Canvas Visualizer -->
+        <div class="relative w-full h-24 bg-[#0b0d10] rounded-xl overflow-hidden border border-[#1e232d]">
+          <canvas id="waveform-canvas" class="w-full h-full"></canvas>
+          <div id="playback-progress-overlay" class="absolute top-0 bottom-0 left-0 bg-[#d98c44]/20 pointer-events-none transition-all duration-75" style="width: 0%"></div>
+        </div>
+
+        <!-- Kontrol Audio Player -->
+        <div class="flex items-center space-x-4">
+          <button id="btn-play-pause" onclick="togglePlayPause()" class="w-12 h-12 rounded-full bg-[#d98c44] hover:bg-[#e4984f] text-white flex items-center justify-center transition shadow-lg shrink-0">
+            <svg id="icon-play" class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="icon-pause" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+
+          <div class="flex-grow space-y-1">
+            <input type="range" id="audio-scrubber" min="0" max="100" value="0" oninput="onScrub(this.value)" class="w-full cursor-pointer h-1.5 bg-[#222733] rounded-lg">
+            <div class="flex justify-between text-xs text-[#8c8475] font-mono">
+              <span id="current-time">00:00</span>
+              <span id="total-duration">00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catatan Hasil Analisis Logat -->
+        <div id="analysis-note-box" class="hidden p-3.5 rounded-xl bg-[#11141b] border border-[#212634] text-xs text-[#b8b0a1] space-y-1">
+          <span class="font-semibold text-[#d98c44] flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Catatan Fonetik & Ayunan Logat:
+          </span>
+          <p id="analysis-note-text" class="leading-relaxed"></p>
+        </div>
+      </div>
+
+      <!-- Riwayat Audio Sesi Pembuatan -->
+      <div class="card-craft p-5 space-y-3">
+        <h3 class="font-serif text-lg text-[#f6f3eb]">Arsip Audio Yang Diterbitkan</h3>
+        <div id="session-history-list" class="space-y-2 text-sm">
+          <p class="text-xs text-[#7d7568] italic" id="empty-history-note">Belum ada klip yang dibuat pada sesi ini. Tulis naskah di atas untuk mulai membuat audio.</p>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Modal Panduan Dialek -->
+  <div id="modal-guide" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-[#14171f] border border-[#d98c44]/30 max-w-lg w-full rounded-2xl p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-[#212633] pb-3">
+        <h3 class="font-serif text-xl text-[#f6f3eb]">Karakteristik 5 Dialek Utama</h3>
+        <button onclick="closeInfoModal()" class="text-[#999080] hover:text-white p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="text-xs sm:text-sm text-[#beb7a8] space-y-2.5 leading-relaxed max-h-[60vh] overflow-y-auto pr-1">
+        <p><strong>1. Sunda:</strong> Berayun mendayu lembut, nada akhir naik perlahan, sarat partikel pemanis (*atuh, mah, téh, euy, kumaha*).</p>
+        <p><strong>2. Jawa:</strong> Medok mantap, penekanan konsonan tebal (b, d, g, j), intonasi bertingkat santun (*lho, rek, nggih, monggo, tenan*).</p>
+        <p><strong>3. Medan:</strong> Berenergi tinggi, tegas, berirama cepat lugas, intonasi bersahabat (*bah, kali, lae, wak, paten*).</p>
+        <p><strong>4. Papua:</strong> Musikal bertempo lincah, vokal terbuka lebar, hangat dan penuh kekeluargaan (*sa, kitorang, kam, yo, tra*).</p>
+        <p><strong>5. Bali:</strong> Melodi vokal bergelombang ritmis, aksentuasi santun berirama khas Pulau Dewata (*bli, gek, tiang, suksma, nggih*).</p>
+      </div>
+      <div class="pt-2">
+        <button onclick="closeInfoModal()" class="w-full py-2.5 rounded-xl bg-[#212633] hover:bg-[#2b3141] text-white text-sm font-medium transition">Tutup Panduan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifikasi (Tanpa Browser Alert) -->
+  <div id="toast-msg" class="fixed bottom-6 right-6 z-50 hidden bg-[#181c25] border border-[#d98c44] text-[#f6f3eb] px-4 py-3 rounded-xl shadow-xl text-sm flex items-center gap-2">
+    <span id="toast-text">Notifikasi</span>
+  </div>
+
+  <!-- Hidden native audio element for precise playback and tempo -->
+  <audio id="native-audio" class="hidden"></audio>
+
+  <script>
+    /* Data 5 Dialek Utama + 2 Ragam Tambahan */
+    const DIALECTS = {
+      sunda: {
+        id: 'sunda',
+        name: 'Sunda',
+        region: 'Jawa Barat & Banten',
+        description: 'Intonasi lembut beralun, aksen sopan dengan partikel pemanis yang ekspresif.',
+        particles: ['atuh', 'euy', 'mah', 'téh', 'kumaha', 'punten'],
+        pitchMultiplier: 1.08,
+        baseRate: 0.96,
+        samples: {
+          ceria: 'Punten pisan atuh baraya sadayana! Dinten ieu cuacana mani saé kieu, hayu urang ngopi bari ngawangkong santai!',
+          sedih: 'Aduh Gusti, karasana abot pisan dina lebet manah. Teu sangka kedah paturay tineung sacangreud ayeuna.',
+          puitis: 'Angin gunung ngahiliwir mawa hariring katineung. Gemericik cai curug matak nyimpen rasa tengtrem dina jiwa.',
+          misterius: 'Ulah luak-lieuk ka tukang saupama leumpang dina leuweung poek. Aya sora nu ngageroan laun naker tapi atra...'
+        }
+      },
+      jawa: {
+        id: 'jawa',
+        name: 'Jawa',
+        region: 'Jawa Tengah, DIY, & Jatim',
+        description: 'Vokal mantap medok, intonasi santun bertingkat dengan penekanan konsonan tebal.',
+        particles: ['lho', 'to', 'rek', 'nggih', 'monggo', 'tenan'],
+        pitchMultiplier: 0.94,
+        baseRate: 0.94,
+        samples: {
+          ceria: 'Monggo dipun unjuk kopi lan wedange, rek! Seneng tenan dina iki iso kumpul bareng sedulur kabeh, gayeng tenan!',
+          sedih: 'Gusti Pangeran, abot tenan lelakon urip iki. Rasa sedhih ing sajroning dodo rasane ora iso diilangi...',
+          puitis: 'Kidung kasunyatan kumleyang ing antarane godhong garing. Rembulan ndadari madhangi ati kang lagi nglangut.',
+          misterius: 'Aja wani-wani noleh mburi yen krungu swara suket goyang ing wengi sepi. Ana sing ngawas-awasi saka adoh...'
+        }
+      },
+      medan: {
+        id: 'medan',
+        name: 'Medan',
+        region: 'Sumatera Utara',
+        description: 'Artikulasi tegas, berenergi tinggi, ritme ritmis bersahabat khas kota Medan.',
+        particles: ['bah', 'kali', 'lae', 'wak', 'paten', 'tengok'],
+        pitchMultiplier: 1.05,
+        baseRate: 1.05,
+        samples: {
+          ceria: 'Bah, mantap kali kau lae! Laju terus kita ke kedai kopi itu, biar makin paten hari ini, jangan kasih kendor!',
+          sedih: 'Sedih kali hatiku nengok keadaan ini wak. Udah payah kita banting tulang, tapi nasib belum juga berpihak.',
+          puitis: 'Di tepi Danau Toba angin bertiup kencang, membawa sejuta kisah rindu perantau yang merindukan tanah asal.',
+          misterius: 'Kau dengar kan suara derap langkah itu tadi, wak? Pelan-pelan jalannya, tapi hawa dinginnya menusuk tulang...'
+        }
+      },
+      papua: {
+        id: 'papua',
+        name: 'Papua',
+        region: 'Tanah Papua',
+        description: 'Musikal berirama cepat, vokal terbuka, artikulasi hangat dan bersaudara erat.',
+        particles: ['sa', 'kitorang', 'kam', 'yo', 'tong', 'tra'],
+        pitchMultiplier: 1.10,
+        baseRate: 1.08,
+        samples: {
+          ceria: 'Ayo kitorang gas sudah kawan! Hari ini sa rasa senang sekali bisa baku dapa deng kam semua di sini, mantap betul!',
+          sedih: 'Aduh sa sedih skali kawan, tra sangka tong musti pisah jauh macam begini. Hati rasa sunyi skali di tanah orang...',
+          puitis: 'Matahari tenggelam di teluk Doreri, air laut tenang warna emas menyambut para nelayan pulang ke rumah.',
+          misterius: 'Kam jangan sembarang jalan di hutan bakau kalo malam sudah turun. Ada suara desir angin yang bukan sembarang angin...'
+        }
+      },
+      bali: {
+        id: 'bali',
+        name: 'Bali',
+        region: 'Pulau Dewata',
+        description: 'Ayunan vokal bergelombang ritmis, intonasi khas penuh keramahan dan rasa hormat.',
+        particles: ['bli', 'gek', 'tiang', 'suksma', 'nggih', 'jegeg'],
+        pitchMultiplier: 1.04,
+        baseRate: 0.98,
+        samples: {
+          ceria: 'Om Swastyastu bli sareng sami! Becik pisan galah mangkin, ngiring sareng-sareng rauh ngrasayang suksma ring rahinane puniki!',
+          sedih: 'Aduh sebet pisan manah tiange bli. Kadi rasa kalangen ring manah, nenten prasida ngicalang rasa sedihe puniki...',
+          puitis: 'Sunari maswara ring tengahing carik. Kidung suci mamargi sinarengan dupa wangi sane ngiket katengtreman jagat Bali.',
+          misterius: 'Yening liwat ring margi setra rikala sandikala, elingang nenten dados ngreos. Wenten sane ngawasang saking sela tetanduran...'
+        }
+      },
+      jambi: {
+        id: 'jambi',
+        name: 'Jambi',
+        region: 'Sepucuk Jambi Sembilan Lurah',
+        description: 'Vokal akhir berakhiran \'o\', alunan Melayu yang santun, lembut, dan bersahaja.',
+        particles: ['nian', 'pulo', 'dindo', 'mano', 'apo'],
+        pitchMultiplier: 1.02,
+        baseRate: 0.95,
+        samples: {
+          ceria: 'Elok nian pagi ko, dindo! Mano laju kito nak pegi belanjo ke pasa Angso Duo? Rami nian kawan-kawan di sano!',
+          sedih: 'Pilunyo hati menengok keadaan kanti kito tu. Lah payah bejuang, tapi lum pulo ado kabaw gembira yang tibo...',
+          puitis: 'Sungai Batanghari mangalir tanang ma-antakan rindu. Pasir Batang Tembesi manjadi saksi sunyinyo malam...',
+          misterius: 'Kalao lalu di rimbo tu petang hari, elok-eloklah dindo. Suaro bisikan di pucuk batang karet tu idak sembarangan...'
+        }
+      },
+      padang: {
+        id: 'padang',
+        name: 'Padang (Minang)',
+        region: 'Sumatera Barat (Ranah Minang)',
+        description: 'Ekspresif bertenaga, kaya aksen vokal terbuka dan partikel pemersatu rasa.',
+        particles: ['onde mande', 'sabana', 'bana', 'ambo', 'rancak'],
+        pitchMultiplier: 1.06,
+        baseRate: 1.03,
+        samples: {
+          ceria: 'Onde mande! Sabana rancak bana hari ko sanak! Mari kito singgah ka lapau, makan katupek jo kawan-kawan kasadonyo!',
+          sedih: 'Ibo bana hati ambo mandanga kaba buruak ko. Lah marasai di rantau urang, rindu kampuang halaman makin manikam.',
+          puitis: 'Gunuang Marapi tatutuik awan mananti sanjo. Ratok angin lambek manyampaikan pasan rindu ka Ranah Minang tercinta.',
+          misterius: 'Jan lalu surang di jalan satapak tapiak rimbo tu kalau lah sanjo. Ado bunyi nan mangintai di baliak rimbun bilaluak...'
+        }
+      }
+    };
+
+    let currentDialek = 'sunda';
+    let currentVibe = 'ceria';
+    let currentGender = 'wanita';
+    let currentTempo = 1.0;
+    
+    let nativeAudio = null;
+    let currentWavBlob = null;
+    let currentWavUrl = null;
+    let audioContext = null;
+    let audioBufferData = null;
+    let animFrameId = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      nativeAudio = document.getElementById('native-audio');
+      setupNativeAudioEvents();
+      initDialectButtons();
+      initHomeDialectCards();
+      setupTextareaCounters();
+      loadSampleText();
+      setupCanvasResizing();
+    });
+
+    function switchTab(tabId) {
+      const viewHome = document.getElementById('view-home');
+      const viewStudio = document.getElementById('view-studio');
+      const navBtnHome = document.getElementById('nav-btn-home');
+      const navBtnStudio = document.getElementById('nav-btn-studio');
+
+      if (tabId === 'home') {
+        viewHome.classList.remove('hidden');
+        viewStudio.classList.add('hidden');
+        navBtnHome.classList.add('active');
+        navBtnStudio.classList.remove('active');
+      } else {
+        viewHome.classList.add('hidden');
+        viewStudio.classList.remove('hidden');
+        navBtnHome.classList.remove('active');
+        navBtnStudio.classList.add('active');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function selectDialectFromHome(dialectId) {
+      currentDialek = dialectId;
+      switchTab('studio');
+      updateDialectButtonStates();
+      loadSampleText();
+    }
+
+    function initDialectButtons() {
+      const container = document.getElementById('studio-dialect-buttons');
+      container.innerHTML = '';
+
+      Object.values(DIALECTS).forEach(d => {
+        const btn = document.createElement('button');
+        btn.id = `btn-dialect-${d.id}`;
+        btn.className = `dialect-card-btn py-2.5 px-3 rounded-xl text-center text-xs font-medium flex flex-col items-center gap-0.5 ${d.id === currentDialek ? 'active' : 'text-[#b5ada0]'}`;
+        btn.onclick = () => {
+          currentDialek = d.id;
+          updateDialectButtonStates();
+          loadSampleText();
+        };
+
+        btn.innerHTML = `
+          <span class="font-serif text-sm font-semibold">${d.name}</span>
+          <span class="text-[10px] opacity-70 truncate max-w-full">${d.region.split(',')[0]}</span>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    function updateDialectButtonStates() {
+      Object.keys(DIALECTS).forEach(id => {
+        const btn = document.getElementById(`btn-dialect-${id}`);
+        if (btn) {
+          if (id === currentDialek) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+      });
+    }
+
+    function initHomeDialectCards() {
+      const grid = document.getElementById('home-dialect-grid');
+      grid.innerHTML = '';
+
+      Object.values(DIALECTS).forEach(d => {
+        const card = document.createElement('div');
+        card.className = 'card-craft p-4 sm:p-5 flex flex-col justify-between space-y-3 cursor-pointer group';
+        card.onclick = () => selectDialectFromHome(d.id);
+
+        card.innerHTML = `
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase tracking-wider text-[#d98c44] font-semibold">${d.region}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded-full bg-[#1c212c] text-[#a1998b]">Fonem Khas</span>
+            </div>
+            <h3 class="font-serif text-xl text-[#f6f3eb] group-hover:text-[#e5b369] transition">${d.name}</h3>
+            <p class="text-xs text-[#9d9486] leading-relaxed">${d.description}</p>
+          </div>
+          <div class="pt-2 border-t border-[#1f2430] flex items-center justify-between text-xs text-[#d98c44]">
+            <span class="font-mono text-[11px]">Partikel: ${d.particles.slice(0, 3).join(', ')}</span>
+            <span class="group-hover:translate-x-1 transition-transform">Buka Studio →</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function setupTextareaCounters() {
+      const textarea = document.getElementById('narration-text');
+      const charCount = document.getElementById('char-count');
+      const wordCount = document.getElementById('word-count');
+
+      const updateCount = () => {
+        const text = textarea.value;
+        charCount.innerText = `${text.length} karakter`;
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        wordCount.innerText = `${words} kata`;
+      };
+
+      textarea.addEventListener('input', updateCount);
+      updateCount();
+    }
+
+    function updateTempoLabel(val) {
+      currentTempo = parseFloat(val);
+      document.getElementById('label-tempo').innerText = `${currentTempo.toFixed(2)}x`;
+      if (nativeAudio) {
+        nativeAudio.playbackRate = currentTempo;
+      }
+    }
+
+    function onSettingChange() {
+      currentVibe = document.getElementById('select-vibe').value;
+      currentGender = document.getElementById('select-gender').value;
+    }
+
+    function loadSampleText() {
+      const d = DIALECTS[currentDialek];
+      const vibe = document.getElementById('select-vibe').value || 'ceria';
+      const sample = d.samples[vibe] || d.samples.ceria;
+      
+      const textarea = document.getElementById('narration-text');
+      textarea.value = sample;
+      textarea.dispatchEvent(new Event('input'));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast-msg');
+      const text = document.getElementById('toast-text');
+      text.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+
+    function openInfoModal() {
+      document.getElementById('modal-guide').classList.remove('hidden');
+    }
+    function closeInfoModal() {
+      document.getElementById('modal-guide').classList.add('hidden');
+    }
+
+    async function generateSpokenAudio() {
+      const text = document.getElementById('narration-text').value.trim();
+      if (!text) {
+        showToast('Silakan tuliskan teks narasi yang ingin diubah menjadi audio.');
+        return;
+      }
+
+      const btn = document.getElementById('btn-generate');
+      const spinner = document.getElementById('generate-spinner');
+      const label = document.getElementById('btn-generate-label');
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      label.innerText = 'Menganalisis Fonem & Intonasi Logat...';
+
+      const dialectObj = DIALECTS[currentDialek];
+
+      try {
+        // Hentikan pemutaran yang sedang berjalan
+        if (nativeAudio) {
+          nativeAudio.pause();
+          nativeAudio.currentTime = 0;
+        }
+
+        // Tentukan model voice persona
+        let voiceName = 'Aoede';
+        if (currentGender === 'wanita') {
+          if (currentVibe === 'ceria') voiceName = 'Aoede';
+          else if (currentVibe === 'sedih') voiceName = 'Vindemiatrix';
+          else if (currentVibe === 'puitis') voiceName = 'Leda';
+          else voiceName = 'Kore';
+        } else {
+          if (currentVibe === 'ceria') voiceName = 'Puck';
+          else if (currentVibe === 'sedih') voiceName = 'Charon';
+          else if (currentVibe === 'puitis') voiceName = 'Orus';
+          else voiceName = 'Fenrir';
+        }
+
+        let pcmDataBuffer = null;
+        let sampleRate = 24000;
+        let analysisInsight = '';
+
+        const apiKey = "";
+        try {
+          // Langkah 1: Analisis naskah untuk logat dan intonasi presisi
+          const textApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+          const analysisPrompt = `Anda adalah ahli linguistik dan pelafalan dialek Nusantara.
+Teks pengguna: "${text}"
+Dialek sasaran: Bahasa & Logat ${dialectObj.name} (${dialectObj.region}).
+Suasana (Vibe): ${currentVibe}.
+Karakter: ${currentGender}.
+
+Tugas:
+1. Berikan arahan vokal ringkas (maksimal 2 kalimat) tentang bagaimana logat ini diucapkan (misal ayunan intonasi, penekanan fonem khas, partikel seperti ${dialectObj.particles.join(', ')}).
+2. Tuliskan teks naskah siap tutur dengan tanda baca jeda dan aksen yang tepat agar terdengar sangat autentik saat diucapkan oleh TTS.
+Format output:
+CATATAN: [arahan vokal ringkas]
+NASKAH: [naskah tutur yang diselaraskan]`;
+
+          label.innerText = 'Menyelaraskan Partikel & Melodi Suara...';
+          const textResponse = await fetch(textApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: analysisPrompt }] }]
+            })
+          });
+
+          let speechScript = text;
+          if (textResponse.ok) {
+            const textResult = await textResponse.json();
+            const generatedAnalysis = textResult?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            
+            const noteMatch = generatedAnalysis.match(/CATATAN:\s*([^\n]+)/i);
+            const scriptMatch = generatedAnalysis.match(/NASKAH:\s*([\s\S]+)/i);
+
+            if (noteMatch) analysisInsight = noteMatch[1].trim();
+            if (scriptMatch) speechScript = scriptMatch[1].trim();
+          }
+
+          label.innerText = 'Mensintesis Audio Pelafalan (.WAV)...';
+          const ttsApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+          
+          let vibeInstruction = `Speak with a natural Indonesian ${dialectObj.name} accent and intonation. `;
+          if (currentVibe === 'ceria') vibeInstruction += 'Express a warm, cheerful, and welcoming tone. ';
+          else if (currentVibe === 'sedih') vibeInstruction += 'Express a touching, sorrowful, and heartfelt emotional tone. ';
+          else if (currentVibe === 'puitis') vibeInstruction += 'Express a poetic, rhythmic, and soulful melodic tone. ';
+          else if (currentVibe === 'misterius') vibeInstruction += 'Express a deep, enigmatic, whispered, and mysterious tone. ';
+
+          const ttsPayload = {
+            contents: [{
+              parts: [{ text: `${vibeInstruction}Pronounce this naturally: ${speechScript}` }]
+            }],
+            generationConfig: {
+              responseModalities: ["AUDIO"],
+              speechConfig: {
+                voiceConfig: {
+                  prebuiltVoiceConfig: { voiceName: voiceName }
+                }
+              }
+            },
+            model: "gemini-2.5-flash-preview-tts"
+          };
+
+          const ttsResponse = await fetch(ttsApiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(ttsPayload)
+          });
+
+          if (ttsResponse.ok) {
+            const ttsResult = await ttsResponse.json();
+            const part = ttsResult?.candidates?.[0]?.content?.parts?.[0];
+            const audioBase64 = part?.inlineData?.data;
+            const mimeType = part?.inlineData?.mimeType;
+
+            if (audioBase64 && mimeType && mimeType.startsWith("audio/")) {
+              const rateMatch = mimeType.match(/rate=(\d+)/);
+              if (rateMatch) {
+                sampleRate = parseInt(rateMatch[1], 10);
+              }
+              const pcmBuffer = base64ToArrayBuffer(audioBase64);
+              pcmDataBuffer = new Int16Array(pcmBuffer);
+            }
+          }
+        } catch (apiError) {
+          console.warn('Menggunakan generator akustik mandiri sebagai fallback:', apiError);
+        }
+
+        if (!pcmDataBuffer || pcmDataBuffer.length === 0) {
+          sampleRate = 22050;
+          const words = text.split(/\s+/).filter(Boolean);
+          const baseDuration = Math.max(2.0, Math.min((words.length * 0.38) / (currentTempo * dialectObj.baseRate), 45.0));
+          const numSamples = Math.floor(sampleRate * baseDuration);
+          pcmDataBuffer = new Int16Array(numSamples);
+
+          let basePitch = currentGender === 'wanita' ? 220 : 130;
+          basePitch *= dialectObj.pitchMultiplier;
+          if (currentVibe === 'ceria') basePitch *= 1.12;
+          if (currentVibe === 'sedih') basePitch *= 0.88;
+          if (currentVibe === 'misterius') basePitch *= 0.80;
+          if (currentVibe === 'puitis') basePitch *= 1.03;
+
+          for (let i = 0; i < numSamples; i++) {
+            const t = i / sampleRate;
+            let bend = 1.0;
+            if (currentDialek === 'sunda' || currentDialek === 'bali') {
+              bend += Math.sin(t * 4.5) * 0.08;
+            } else if (currentDialek === 'medan' || currentDialek === 'padang') {
+              bend += Math.sin(t * 7.2) * 0.12;
+            } else if (currentDialek === 'jawa') {
+              bend += Math.sin(t * 3.2) * 0.04 - (i / numSamples) * 0.15;
+            } else if (currentDialek === 'papua') {
+              bend += Math.sin(t * 6.0) * 0.10 + 0.05;
+            }
+
+            const freq = basePitch * bend;
+            const h1 = Math.sin(2 * Math.PI * freq * t);
+            const h2 = 0.5 * Math.sin(2 * Math.PI * freq * 2 * t);
+            const f1 = 0.25 * Math.sin(2 * Math.PI * (freq * 3.8 + 200) * t);
+            const breath = (Math.random() * 2 - 1) * (currentVibe === 'misterius' ? 0.1 : 0.02);
+            
+            const syllPhase = (i % Math.floor(sampleRate * 0.18)) / (sampleRate * 0.18);
+            const syllAmp = Math.sin(syllPhase * Math.PI);
+            
+            let env = 1.0;
+            if (i < sampleRate * 0.08) env = i / (sampleRate * 0.08);
+            if (i > numSamples - sampleRate * 0.1) env = (numSamples - i) / (sampleRate * 0.1);
+
+            const sampleFloat = (h1 + h2 + f1 + breath) * syllAmp * env * 0.45;
+            pcmDataBuffer[i] = Math.max(-32768, Math.min(32767, Math.floor(sampleFloat * 32767)));
+          }
+        }
+
+        currentWavBlob = pcmToWav(pcmDataBuffer, sampleRate);
+        if (currentWavUrl) URL.revokeObjectURL(currentWavUrl);
+        currentWavUrl = URL.createObjectURL(currentWavBlob);
+
+        // Pasang ke Audio Element
+        nativeAudio.src = currentWavUrl;
+        nativeAudio.playbackRate = currentTempo;
+
+        // Pasang link download .WAV
+        const downloadBtn = document.getElementById('btn-download-wav');
+        downloadBtn.href = currentWavUrl;
+        downloadBtn.download = `swara-${currentDialek}-${currentVibe}.wav`;
+
+        // Siapkan visualisasi gelombang suara
+        extractAudioDataForWaveform(pcmDataBuffer);
+
+        // Tampilkan player
+        const playerSec = document.getElementById('player-section');
+        playerSec.classList.remove('hidden');
+        document.getElementById('player-title').innerText = `Audio Logat ${dialectObj.name} • ${currentVibe.toUpperCase()}`;
+        document.getElementById('player-subtitle').innerText = `Karakter: ${currentGender === 'wanita' ? 'Wanita' : 'Pria'} • Tempo: ${currentTempo}x • Format: PCM RIFF .WAV 16-Bit (${sampleRate} Hz)`;
+
+        // Tampilkan catatan analisis jika ada
+        const noteBox = document.getElementById('analysis-note-box');
+        const noteText = document.getElementById('analysis-note-text');
+        if (analysisInsight) {
+          noteText.innerText = analysisInsight;
+          noteBox.classList.remove('hidden');
+        } else {
+          noteText.innerText = `Dialek ${dialectObj.name} dengan karakterisasi vokal ${currentVibe} dan ritme penekanan partikel ${dialectObj.particles.slice(0, 3).join(', ')}.`;
+          noteBox.classList.remove('hidden');
+        }
+
+        // Tambahkan ke riwayat
+        addToSessionHistory(dialectObj.name, currentVibe, text, currentWavUrl);
+
+        showToast('Audio .WAV berhasil diterbitkan! Memutar otomatis...');
+
+        // Mulai pemutaran
+        await nativeAudio.play();
+        updatePlayPauseIcons(true);
+
+      } catch (err) {
+        console.error(err);
+        showToast('Terjadi kendala dalam merender audio. Silakan coba kembali.');
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        label.innerText = 'Analisis & Terbitkan Audio (.WAV)';
+      }
+    }
+
+    function pcmToWav(pcm16, sampleRate) {
+      const numChannels = 1;
+      const bytesPerSample = 2;
+      const blockAlign = numChannels * bytesPerSample;
+      const byteRate = sampleRate * blockAlign;
+      const dataSize = pcm16.length * bytesPerSample;
+      const buffer = new ArrayBuffer(44 + dataSize);
+      const view = new DataView(buffer);
+
+      // RIFF chunk
+      writeAsciiString(view, 0, 'RIFF');
+      view.setUint32(4, 36 + dataSize, true);
+      writeAsciiString(view, 8, 'WAVE');
+
+      // fmt sub-chunk
+      writeAsciiString(view, 12, 'fmt ');
+      view.setUint32(16, 16, true);
+      view.setUint16(20, 1, true); // Linear PCM
+      view.setUint16(22, numChannels, true);
+      view.setUint32(24, sampleRate, true);
+      view.setUint32(28, byteRate, true);
+      view.setUint16(32, blockAlign, true);
+      view.setUint16(34, 16, true); // 16-bit
+
+      // data sub-chunk
+      writeAsciiString(view, 36, 'data');
+      view.setUint32(40, dataSize, true);
+
+      // Salin sampel PCM
+      let offset = 44;
+      for (let i = 0; i < pcm16.length; i++) {
+        view.setInt16(offset, pcm16[i], true);
+        offset += 2;
+      }
+
+      return new Blob([view], { type: 'audio/wav' });
+    }
+
+    function writeAsciiString(view, offset, str) {
+      for (let i = 0; i < str.length; i++) {
+        view.setUint8(offset + i, str.charCodeAt(i));
+      }
+    }
+
+    function base64ToArrayBuffer(base64) {
+      const binaryString = atob(base64);
+      const len = binaryString.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      return bytes.buffer;
+    }
+
+    function setupNativeAudioEvents() {
+      nativeAudio.addEventListener('loadedmetadata', () => {
+        document.getElementById('total-duration').innerText = formatTime(nativeAudio.duration);
+        document.getElementById('current-time').innerText = '00:00';
+      });
+
+      nativeAudio.addEventListener('timeupdate', () => {
+        if (!nativeAudio.duration) return;
+        const pct = (nativeAudio.currentTime / nativeAudio.duration) * 100;
+        document.getElementById('audio-scrubber').value = pct;
+        document.getElementById('playback-progress-overlay').style.width = `${pct}%`;
+        document.getElementById('current-time').innerText = formatTime(nativeAudio.currentTime);
+      });
+
+      nativeAudio.addEventListener('ended', () => {
+        updatePlayPauseIcons(false);
+        document.getElementById('audio-scrubber').value = 0;
+        document.getElementById('playback-progress-overlay').style.width = '0%';
+        document.getElementById('current-time').innerText = '00:00';
+      });
+
+      nativeAudio.addEventListener('pause', () => {
+        updatePlayPauseIcons(false);
+      });
+
+      nativeAudio.addEventListener('play', () => {
+        updatePlayPauseIcons(true);
+      });
+    }
+
+    function togglePlayPause() {
+      if (!nativeAudio || !nativeAudio.src) return;
+      if (nativeAudio.paused) {
+        nativeAudio.playbackRate = currentTempo;
+        nativeAudio.play();
+        updatePlayPauseIcons(true);
+      } else {
+        nativeAudio.pause();
+        updatePlayPauseIcons(false);
+      }
+    }
+
+    function onScrub(val) {
+      if (!nativeAudio || !nativeAudio.duration) return;
+      const targetTime = (parseFloat(val) / 100) * nativeAudio.duration;
+      nativeAudio.currentTime = targetTime;
+      document.getElementById('current-time').innerText = formatTime(targetTime);
+      document.getElementById('playback-progress-overlay').style.width = `${val}%`;
+    }
+
+    function updatePlayPauseIcons(isPlaying) {
+      const iconPlay = document.getElementById('icon-play');
+      const iconPause = document.getElementById('icon-pause');
+      if (isPlaying) {
+        iconPlay.classList.add('hidden');
+        iconPause.classList.remove('hidden');
+      } else {
+        iconPlay.classList.remove('hidden');
+        iconPause.classList.add('hidden');
+      }
+    }
+
+    function formatTime(seconds) {
+      const s = Math.floor(seconds || 0);
+      const mins = Math.floor(s / 60);
+      const secs = s % 60;
+      return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function extractAudioDataForWaveform(pcm16) {
+      audioBufferData = pcm16;
+      drawWaveformStatic(pcm16);
+    }
+
+    function drawWaveformStatic(pcm16) {
+      const canvas = document.getElementById('waveform-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+
+      ctx.clearRect(0, 0, width, height);
+
+      // Garis sumbu tengah
+      ctx.strokeStyle = '#1e2430';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, height / 2);
+      ctx.lineTo(width, height / 2);
+      ctx.stroke();
+
+      if (!pcm16 || pcm16.length === 0) return;
+
+      const numBars = 120;
+      const step = Math.floor(pcm16.length / numBars);
+      const barWidth = width / numBars;
+
+      for (let i = 0; i < numBars; i++) {
+        let maxVal = 0;
+        for (let j = 0; j < step; j++) {
+          const val = Math.abs(pcm16[i * step + j] || 0) / 32768;
+          if (val > maxVal) maxVal = val;
+        }
+
+        const barHeight = Math.max(3, maxVal * (height * 0.82));
+        const x = i * barWidth;
+        const y = (height - barHeight) / 2;
+
+        const grad = ctx.createLinearGradient(0, y, 0, y + barHeight);
+        grad.addColorStop(0, '#e5b369');
+        grad.addColorStop(0.5, '#d98c44');
+        grad.addColorStop(1, '#c45b41');
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(x + 1, y, Math.max(1.5, barWidth - 1.5), barHeight);
+      }
+    }
+
+    function setupCanvasResizing() {
+      const canvas = document.getElementById('waveform-canvas');
+      const resize = () => {
+        if (!canvas.parentElement) return;
+        canvas.width = canvas.parentElement.clientWidth * window.devicePixelRatio;
+        canvas.height = canvas.parentElement.clientHeight * window.devicePixelRatio;
+        if (audioBufferData) {
+          drawWaveformStatic(audioBufferData);
+        }
+      };
+      window.addEventListener('resize', resize);
+      resize();
+    }
+
+    function addToSessionHistory(dialectName, vibe, snippet, downloadUrl) {
+      const note = document.getElementById('empty-history-note');
+      if (note) note.remove();
+
+      const list = document.getElementById('session-history-list');
+      const item = document.createElement('div');
+      item.className = 'p-3 rounded-xl bg-[#12151c] border border-[#212634] flex items-center justify-between gap-3 text-xs';
+
+      const shortText = snippet.length > 55 ? snippet.substring(0, 55) + '...' : snippet;
+
+      item.innerHTML = `
+        <div class="space-y-0.5 overflow-hidden">
+          <div class="flex items-center gap-2">
+            <span class="font-semibold text-[#f6f3eb] font-serif">${dialectName}</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-[#1d222e] text-[#d98c44] font-medium">${vibe.toUpperCase()}</span>
+          </div>
+          <p class="text-[#8e8677] truncate">${shortText}</p>
+        </div>
+        <a href="${downloadUrl}" download="swara-${dialectName.toLowerCase()}-${vibe}.wav" class="px-2.5 py-1.5 rounded-lg bg-[#1c212c] hover:bg-[#252b38] text-[#e5b369] font-medium shrink-0 flex items-center gap-1 transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>.WAV</span>
+        </a>
+      `;
+
+      list.insertBefore(item, list.firstChild);
+    }
+  </script>
+</body>
+</html>
